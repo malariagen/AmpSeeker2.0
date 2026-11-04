@@ -34,4 +34,4 @@ Ampseeker2.0 is designed to be ran in the terra platform. Please see the [docume
 
 ## Contributing to AmpSeeker
 
-If you would like to contribute to Ampseeker2.0 please follo the instructions in the CONTRIBUTING page.
+If you would like to contribute to Ampseeker2.0 please follow the instructions in the CONTRIBUTING page.
