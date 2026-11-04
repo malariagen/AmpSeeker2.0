@@ -1,0 +1,307 @@
+281378673 153 11
+0 2L | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=49364325 | SO=chromosome
+0 49364325 957
+0 2R | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=61545105 | SO=chromosome
+49364325 61545105 1658
+0 3L | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=41963435 | SO=chromosome
+110909430 41963435 1272
+0 3R | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=53200684 | SO=chromosome
+152872865 53200684 1128
+0 UNKN | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=42389979 | SO=chromosome
+206073549 42389979 10452
+0 X | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=24393108 | SO=chromosome
+248463528 24393108 1287
+0 Y_unplaced | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=237045 | SO=chromosome
+272856636 237045 63
+0 AAAB01000047 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=21505 | SO=supercontig
+273093681 21505 5
+0 AAAB01000163 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28420 | SO=supercontig
+273115186 28420 5
+0 AAAB01000448 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=22809 | SO=supercontig
+273143606 22809 2
+0 AAAB01000791 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=62303 | SO=supercontig
+273166415 62303 7
+0 AAAB01000813 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=74087 | SO=supercontig
+273228718 74087 11
+0 AAAB01000889 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=171618 | SO=supercontig
+273302805 171618 21
+0 AAAB01000995 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=75498 | SO=supercontig
+273474423 75498 7
+0 AAAB01001048 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=27234 | SO=supercontig
+273549921 27234 1
+0 AAAB01001056 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=69061 | SO=supercontig
+273577155 69061 9
+0 AAAB01001122 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=23950 | SO=supercontig
+273646216 23950 4
+0 AAAB01001548 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=147037 | SO=supercontig
+273670166 147037 19
+0 AAAB01001654 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=24299 | SO=supercontig
+273817203 24299 2
+0 AAAB01001687 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=47397 | SO=supercontig
+273841502 47397 11
+0 AAAB01001960 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=26872 | SO=supercontig
+273888899 26872 3
+0 AAAB01002000 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=25156 | SO=supercontig
+273915771 25156 4
+0 AAAB01002010 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=26527 | SO=supercontig
+273940927 26527 2
+0 AAAB01002124 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=52770 | SO=supercontig
+273967454 52770 8
+0 AAAB01002209 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=72426 | SO=supercontig
+274020224 72426 13
+0 AAAB01002438 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=20802 | SO=supercontig
+274092650 20802 2
+0 AAAB01002725 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=30046 | SO=supercontig
+274113452 30046 6
+0 AAAB01002859 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=18847 | SO=supercontig
+274143498 18847 2
+0 AAAB01002965 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=18189 | SO=supercontig
+274162345 18189 4
+0 AAAB01003040 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=21078 | SO=supercontig
+274180534 21078 2
+0 AAAB01003176 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28928 | SO=supercontig
+274201612 28928 5
+0 AAAB01003214 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=15761 | SO=supercontig
+274230540 15761 2
+0 AAAB01003746 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=39693 | SO=supercontig
+274246301 39693 4
+0 AAAB01003776 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=30352 | SO=supercontig
+274285994 30352 2
+0 AAAB01003846 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=44509 | SO=supercontig
+274316346 44509 4
+0 AAAB01003945 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=25653 | SO=supercontig
+274360855 25653 2
+0 AAAB01004174 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=26646 | SO=supercontig
+274386508 26646 7
+0 AAAB01004182 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=40084 | SO=supercontig
+274413154 40084 7
+0 AAAB01004310 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=21269 | SO=supercontig
+274453238 21269 3
+0 AAAB01004737 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=36366 | SO=supercontig
+274474507 36366 4
+0 AAAB01004940 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=23910 | SO=supercontig
+274510873 23910 4
+0 AAAB01004946 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=20831 | SO=supercontig
+274534783 20831 1
+0 AAAB01005038 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=45499 | SO=supercontig
+274555614 45499 3
+0 AAAB01005199 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=27801 | SO=supercontig
+274601113 27801 3
+0 AAAB01005264 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=23259 | SO=supercontig
+274628914 23259 3
+0 AAAB01005725 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=23113 | SO=supercontig
+274652173 23113 4
+0 AAAB01006018 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=50549 | SO=supercontig
+274675286 50549 8
+0 AAAB01006019 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28531 | SO=supercontig
+274725835 28531 3
+0 AAAB01006111 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28696 | SO=supercontig
+274754366 28696 3
+0 AAAB01006141 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=30987 | SO=supercontig
+274783062 30987 3
+0 AAAB01006400 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=34757 | SO=supercontig
+274814049 34757 5
+0 AAAB01006471 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=23080 | SO=supercontig
+274848806 23080 3
+0 AAAB01006483 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=52080 | SO=supercontig
+274871886 52080 4
+0 AAAB01006502 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=20902 | SO=supercontig
+274923966 20902 2
+0 AAAB01006515 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=75550 | SO=supercontig
+274944868 75550 9
+0 AAAB01006539 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=46071 | SO=supercontig
+275020418 46071 4
+0 AAAB01007479 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=24942 | SO=supercontig
+275066489 24942 2
+0 AAAB01007519 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=71277 | SO=supercontig
+275091431 71277 10
+0 AAAB01007521 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=42569 | SO=supercontig
+275162708 42569 7
+0 AAAB01007528 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=24697 | SO=supercontig
+275205277 24697 2
+0 AAAB01007540 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=27369 | SO=supercontig
+275229974 27369 3
+0 AAAB01007642 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=59500 | SO=supercontig
+275257343 59500 8
+0 AAAB01007663 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=53393 | SO=supercontig
+275316843 53393 3
+0 AAAB01007666 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=21694 | SO=supercontig
+275370236 21694 3
+0 AAAB01007668 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=23013 | SO=supercontig
+275391930 23013 1
+0 AAAB01007669 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=86350 | SO=supercontig
+275414943 86350 12
+0 AAAB01007770 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=15261 | SO=supercontig
+275501293 15261 1
+0 AAAB01007773 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=36155 | SO=supercontig
+275516554 36155 1
+0 AAAB01007779 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=98603 | SO=supercontig
+275552709 98603 10
+0 AAAB01007780 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=23948 | SO=supercontig
+275651312 23948 2
+0 AAAB01007781 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=30689 | SO=supercontig
+275675260 30689 3
+0 AAAB01007801 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=140901 | SO=supercontig
+275705949 140901 13
+0 AAAB01007859 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=143482 | SO=supercontig
+275846850 143482 25
+0 AAAB01007891 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=25627 | SO=supercontig
+275990332 25627 2
+0 AAAB01007893 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=55453 | SO=supercontig
+276015959 55453 9
+0 AAAB01007904 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=30768 | SO=supercontig
+276071412 30768 2
+0 AAAB01007920 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=21136 | SO=supercontig
+276102180 21136 2
+0 AAAB01007923 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=68805 | SO=supercontig
+276123316 68805 7
+0 AAAB01007991 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=18406 | SO=supercontig
+276192121 18406 2
+0 AAAB01007992 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=36642 | SO=supercontig
+276210527 36642 1
+0 AAAB01007994 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=85560 | SO=supercontig
+276247169 85560 12
+0 AAAB01007996 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=30657 | SO=supercontig
+276332729 30657 2
+0 AAAB01008030 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=31306 | SO=supercontig
+276363386 31306 2
+0 AAAB01008082 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=20693 | SO=supercontig
+276394692 20693 2
+0 AAAB01008085 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=24870 | SO=supercontig
+276415385 24870 2
+0 AAAB01008089 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=41581 | SO=supercontig
+276440255 41581 5
+0 AAAB01008095 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=35900 | SO=supercontig
+276481836 35900 3
+0 AAAB01008098 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=17102 | SO=supercontig
+276517736 17102 0
+0 AAAB01008115 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=35279 | SO=supercontig
+276534838 35279 5
+0 AAAB01008118 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=21535 | SO=supercontig
+276570117 21535 2
+0 AAAB01008119 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=93601 | SO=supercontig
+276591652 93601 10
+0 AAAB01008137 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=17716 | SO=supercontig
+276685253 17716 1
+0 AAAB01008146 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=59485 | SO=supercontig
+276702969 59485 4
+0 AAAB01008166 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=31052 | SO=supercontig
+276762454 31052 0
+0 AAAB01008180 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=86988 | SO=supercontig
+276793506 86988 6
+0 AAAB01008183 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28896 | SO=supercontig
+276880494 28896 2
+0 AAAB01008192 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=71035 | SO=supercontig
+276909390 71035 12
+0 AAAB01008194 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=81817 | SO=supercontig
+276980425 81817 6
+0 AAAB01008208 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=20213 | SO=supercontig
+277062242 20213 2
+0 AAAB01008214 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=37062 | SO=supercontig
+277082455 37062 3
+0 AAAB01008240 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=19655 | SO=supercontig
+277119517 19655 0
+0 AAAB01008245 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28128 | SO=supercontig
+277139172 28128 3
+0 AAAB01008246 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=168271 | SO=supercontig
+277167300 168271 13
+0 AAAB01008247 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=30670 | SO=supercontig
+277335571 30670 1
+0 AAAB01008266 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=83998 | SO=supercontig
+277366241 83998 3
+0 AAAB01008268 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=30929 | SO=supercontig
+277450239 30929 2
+0 AAAB01008287 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=27984 | SO=supercontig
+277481168 27984 3
+0 AAAB01008316 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=34372 | SO=supercontig
+277509152 34372 3
+0 AAAB01008407 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=19792 | SO=supercontig
+277543524 19792 1
+0 AAAB01008408 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28982 | SO=supercontig
+277563316 28982 1
+0 AAAB01008449 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28547 | SO=supercontig
+277592298 28547 2
+0 AAAB01008470 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=17839 | SO=supercontig
+277620845 17839 1
+0 AAAB01008494 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28266 | SO=supercontig
+277638684 28266 5
+0 AAAB01008527 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=32117 | SO=supercontig
+277666950 32117 1
+0 AAAB01008530 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=255544 | SO=supercontig
+277699067 255544 18
+0 AAAB01008546 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=41486 | SO=supercontig
+277954611 41486 2
+0 AAAB01008559 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=39604 | SO=supercontig
+277996097 39604 5
+0 AAAB01008696 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=27198 | SO=supercontig
+278035701 27198 5
+0 AAAB01008704 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=34479 | SO=supercontig
+278062899 34479 4
+0 AAAB01008724 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=64761 | SO=supercontig
+278097378 64761 7
+0 AAAB01008757 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=25227 | SO=supercontig
+278162139 25227 2
+0 AAAB01008782 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=21466 | SO=supercontig
+278187366 21466 4
+0 AAAB01008806 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=78010 | SO=supercontig
+278208832 78010 7
+0 AAAB01008813 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=149287 | SO=supercontig
+278286842 149287 22
+0 AAAB01008824 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=27573 | SO=supercontig
+278436129 27573 3
+0 AAAB01008837 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=102186 | SO=supercontig
+278463702 102186 9
+0 AAAB01008845 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=53693 | SO=supercontig
+278565888 53693 7
+0 AAAB01008853 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=120007 | SO=supercontig
+278619581 120007 17
+0 AAAB01008858 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=200955 | SO=supercontig
+278739588 200955 25
+0 AAAB01008866 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=40277 | SO=supercontig
+278940543 40277 7
+0 AAAB01008870 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=364519 | SO=supercontig
+278980820 364519 37
+0 AAAB01008872 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=16152 | SO=supercontig
+279345339 16152 2
+0 AAAB01008875 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=57611 | SO=supercontig
+279361491 57611 7
+0 AAAB01008884 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=39292 | SO=supercontig
+279419102 39292 3
+0 AAAB01008886 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28599 | SO=supercontig
+279458394 28599 3
+0 AAAB01008891 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=50950 | SO=supercontig
+279486993 50950 6
+0 AAAB01008895 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=55604 | SO=supercontig
+279537943 55604 5
+0 AAAB01008896 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=177647 | SO=supercontig
+279593547 177647 14
+0 AAAB01008908 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=253086 | SO=supercontig
+279771194 253086 36
+0 AAAB01008915 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=134505 | SO=supercontig
+280024280 134505 14
+0 AAAB01008916 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=415479 | SO=supercontig
+280158785 415479 29
+0 AAAB01008917 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=20826 | SO=supercontig
+280574264 20826 2
+0 AAAB01008918 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28814 | SO=supercontig
+280595090 28814 3
+0 AAAB01008923 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=98754 | SO=supercontig
+280623904 98754 16
+0 AAAB01008929 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=39994 | SO=supercontig
+280722658 39994 2
+0 AAAB01008945 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=84493 | SO=supercontig
+280762652 84493 13
+0 AAAB01008946 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=76177 | SO=supercontig
+280847145 76177 14
+0 AAAB01008950 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=67066 | SO=supercontig
+280923322 67066 8
+0 AAAB01008954 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=174991 | SO=supercontig
+280990388 174991 18
+0 AAAB01008965 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=104562 | SO=supercontig
+281165379 104562 5
+0 AAAB01008974 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=64810 | SO=supercontig
+281269941 64810 4
+0 AAAB01008983 | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=28559 | SO=supercontig
+281334751 28559 5
+0 Mt | organism=Anopheles_gambiae_PEST | version=AgamP4 | length=15363 | SO=mitochondrial_chromosome
+281363310 15363 0

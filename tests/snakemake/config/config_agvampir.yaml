@@ -1,0 +1,39 @@
+dataset: test-agvampir
+metadata: config/metadata-nofq.tsv
+cohort-columns:
+  - location
+  - taxon
+targets: config/ag-vampir.bed
+panel: ag-vampir
+
+platform: illumina
+ploidy: 2
+# For Illumina - specify whether to convert bcl files to fastq
+from-bcl: False
+# Directory of Illumina Miseq Run
+illumina-dir: ""
+
+# Genome fasta reference files 
+reference-fasta: resources/reference/AgamP4.fa
+reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
+reference-snpeffdb: Anopheles_gambiae
+custom-snpeffdb: True
+
+# Specify whether to run quality-control analyses
+quality-control:
+  sample-min-mean-target-coverage: 5
+
+  coverage: True
+  stats: True
+  multiqc: True
+
+
+# Specify whether to run generic analyses
+analysis:  
+  sample-map: True
+  population-structure: True
+  genetic-diversity: True
+  allele-frequencies: True
+
+# Specify whether to build jupyter results book
+build-jupyter-book: True

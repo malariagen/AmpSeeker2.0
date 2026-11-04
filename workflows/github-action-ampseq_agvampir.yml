@@ -1,0 +1,40 @@
+name: AmpSeeker-ag-vampir
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 1 * *'
+
+      
+jobs:
+  run-workflow:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - name: Set up python3
+        uses: actions/setup-python@v2
+        with:
+          python-version:  ${{ matrix.python-version }}
+
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Test workflow 
+        uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
+        with:
+          directory: 'tests/snakemake'
+          snakefile: 'workflow/Snakefile'
+          args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile tests/snakemake/config/config_agvampir.yaml'
+          stagein: 
+            "
+            pip install pandas &&
+            conda config --set channel_priority flexible &&
+            chmod +x resources/copy-resources-for-testing.sh &&
+            ./resources/copy-resources-for-testing.sh
+            "
