@@ -1,0 +1,371 @@
+import pandas as pd
+import numpy as np
+import allel
+import re
+
+def load_bed(bed_path: str, expected_cols = ['contig', 'start', 'end', 'amplicon_id', 'mutation', 'ref', 'alt']) -> pd.DataFrame:
+    """Read a BED-like file and normalise its columns.
+
+    Parameters
+    ----------
+    bed_path : str
+        Path to the BED-like tab-delimited file.
+    expected_cols : list of str, optional
+        Expected output column names in positional order.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Dataframe containing exactly `expected_cols`, with missing columns
+        filled with `pandas.NA`.
+    """
+    # Read the file without predefined column names
+    df = pd.read_csv(bed_path, sep="\t", header=None)
+    
+    # Assign only the first N column names that exist
+    df.columns = expected_cols[: df.shape[1]]
+    
+    # Add any missing columns as NaN
+    for col in expected_cols[df.shape[1] :]:
+        df[col] = pd.NA
+    
+    return df[expected_cols]
+
+def load_vcf(vcf_path):
+    """Read a VCF file and return core variant arrays.
+
+    Parameters
+    ----------
+    vcf_path : str or path-like
+        Path to the VCF file.
+
+    Returns
+    -------
+    dict
+        Dictionary containing sample IDs, genotype calls, variant metadata,
+        and parsed annotation values.
+    """
+    vcf = allel.read_vcf(vcf_path, fields="*")
+    return {
+        "samples": vcf["samples"],
+        "geno": allel.GenotypeArray(vcf["calldata/GT"]),
+        "pos": vcf["variants/POS"],
+        "contig": vcf["variants/CHROM"],
+        "filter_pass": vcf["variants/FILTER_PASS"],
+        "ref": vcf["variants/REF"],
+        "alt": vcf["variants/ALT"],
+        "ann": read_ann_field(vcf_path),
+        "indel": vcf["variants/INDEL"] if "variants/INDEL" in vcf else None,
+        "is_snp": vcf["variants/is_snp"] if "variants/is_snp" in vcf else None,
+    }
+
+def load_variants(
+    vcf_path,
+    metadata=None,
+    platform=None,
+    filter_missing=None,
+    filter_maf=None,
+    segregating_only=False,
+    filter_indel=False,
+):
+    """Load variants from a VCF and apply optional filters.
+
+    Parameters
+    ----------
+    vcf_path : str or path-like
+        Path to the VCF file.
+    metadata : pandas.DataFrame, optional
+        Sample metadata containing a `sample_id` column. If omitted, metadata
+        is constructed from the VCF sample IDs.
+    platform : {"illumina", "nanopore"}, optional
+        Sequencing platform. Required when `filter_indel=True`.
+    filter_missing : float, optional
+        Maximum allowed fraction of missing calls per site.
+    filter_maf : float, optional
+        Minimum alternate allele frequency required to keep a variant.
+    segregating_only : bool, default=False
+        Whether to retain only segregating sites.
+    filter_indel : bool, default=False
+        Whether to remove indels using platform-specific VCF fields.
+
+    Returns
+    -------
+    tuple
+        Tuple of `(geno, pos, contig, metadata_out, ref, alt, ann)` after all
+        requested filters have been applied.
+    """
+    core = load_vcf(vcf_path)
+
+    if metadata is None:
+        metadata = pd.DataFrame({"sample_id": core["samples"]})
+    if "sample_id" not in metadata.columns:
+        raise ValueError("metadata must contain a 'sample_id' column.")
+
+    samples = core["samples"]
+    sample_mask = np.isin(samples, metadata.sample_id)
+
+    geno = core["geno"].compress(sample_mask, axis=1)
+    pos = core["pos"]
+    contig = core["contig"]
+    ref = core["ref"]
+    alt = core["alt"]
+    ann = core["ann"]
+
+    def _apply_variant_mask(mask):
+        nonlocal geno, pos, contig, ref, alt, ann
+        geno = geno.compress(mask, axis=0)
+        pos = pos[mask]
+        contig = contig[mask]
+        ref = ref[mask]
+        alt = alt[mask]
+        ann = ann[mask]
+
+    if filter_indel:
+        if platform not in ("illumina", "nanopore"):
+            raise ValueError("platform must be 'illumina' or 'nanopore' when filter_indel=True.")
+        if platform == "illumina":
+            indel = core["indel"]
+            if indel is None:
+                raise KeyError("variants/INDEL field not found in VCF for illumina filtering.")
+        else:
+            if core["is_snp"] is None:
+                raise KeyError("variants/is_snp field not found in VCF for nanopore filtering.")
+            indel = ~core["is_snp"]
+        _apply_variant_mask(~indel)
+
+    if segregating_only:
+        ac = geno.count_alleles(max_allele=3)
+        _apply_variant_mask(ac.is_segregating())
+
+    if filter_maf is not None:
+        ac = geno.count_alleles(max_allele=3)
+        af = ac.to_frequencies()
+        if af.shape[1] > 1:
+            alt_af = np.nan_to_num(af[:, 1:], nan=0.0).max(axis=1)
+        else:
+            alt_af = np.zeros(af.shape[0], dtype=float)
+        _apply_variant_mask(alt_af >= filter_maf)
+
+    if filter_missing:
+        missing_mask = geno.is_missing().sum(axis=1) <= geno.shape[1] * filter_missing
+        _apply_variant_mask(missing_mask)
+
+    metadata = metadata.set_index("sample_id")
+    samples = samples[sample_mask]
+    metadata_out = metadata.loc[samples, :].reset_index()
+
+    return geno, pos, contig, metadata_out, ref, alt, ann
+
+
+def read_ann_field(vcf_file):
+    """Extract the `ANN` INFO field from each non-header VCF record.
+
+    Parameters
+    ----------
+    vcf_file : str or path-like
+        Path to the VCF file.
+
+    Returns
+    -------
+    numpy.ndarray
+        Array of annotation strings, with `None` where no `ANN` value exists.
+    """
+    anns = []
+    with open(vcf_file, 'r') as f:
+        for line in f:
+            if line.startswith('#'):
+                continue  # Skip header lines
+            fields = line.strip().split('\t')
+            info_field = fields[7]
+            info_pairs = info_field.split(';')
+            ann_value = None
+            for pair in info_pairs:
+                if pair.startswith('ANN='):
+                    ann_value = pair.split('=')[1]
+                    break
+            anns.append(ann_value)
+
+    return np.array(anns)
+
+
+def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
+    """Run PCA on genotype data after standard site filtering.
+
+    Parameters
+    ----------
+    geno : allel.GenotypeArray
+        Genotype array with variants on axis 0 and samples on axis 1.
+    metadata : pandas.DataFrame
+        Metadata aligned to the samples in `geno`.
+    n_components : int, default=3
+        Number of principal components to compute.
+    query : str, optional
+        Pandas query expression used to subset `metadata` and the matching
+        genotype columns before PCA.
+    missing_threshold : float, default=0.05
+        Maximum fraction of missing calls allowed per site.
+
+    Returns
+    -------
+    tuple
+        Tuple of `(pca_df, model)` where `pca_df` contains sample metadata and
+        principal component coordinates.
+    """
+
+    if query:
+        mask = metadata.eval(query)
+        metadata = metadata[mask]
+        geno = geno.compress(mask, axis=1)
+
+    # Keep only segregating sites, i.e. variant sites where at least two
+    # alleles are observed across the retained samples.
+    print("removing any invariant and highly missing sites")
+    ac = geno.count_alleles()
+    seg = ac.is_segregating()
+    gn_seg = geno.compress(seg, axis=0)
+
+    # Remove highly missing sites. A missing site is a site with no genotype
+    # call in one or more samples; here "highly missing" means missing in more
+    # than missing_threshold of samples. The default is 5% for PCA.
+    missing_mask = gn_seg.is_missing().sum(axis=1) > gn_seg.shape[1] * missing_threshold
+    gn_seg = gn_seg.compress(~missing_mask, axis=0)
+    gn_alt = gn_seg.to_n_alt()
+
+    # Remove invariant sites, i.e. sites where all remaining called genotypes
+    # are identical and therefore contribute no information to PCA.
+    loc_var = np.any(gn_alt != gn_alt[:, 0, np.newaxis], axis=1)
+    gn_var = np.compress(loc_var, gn_alt, axis=0)
+    
+    coords, model = allel.pca(gn_var, n_components=n_components)
+
+    # flip axes back so PC1 is same orientation in each window 
+    for i in range(n_components):
+        c = coords[:, i]
+    if np.abs(c.min()) > np.abs(c.max()):
+        coords[:, i] = c * -1
+    
+    pca_df = pd.DataFrame(coords)
+    pca_df.columns = [f"PC{pc+1}" for pc in range(n_components)]
+    pca_df = pd.concat([metadata.reset_index(drop=True), pca_df], axis=1)
+    
+    return pca_df, model
+
+
+
+
+import numba
+@numba.njit(parallel=True)
+def multiallelic_diplotype_pdist(X, metric):
+    """Compute condensed pairwise distances between diplotypes.
+
+    Parameters
+    ----------
+    X : numpy.ndarray
+        Allele-count representation of shape `(n_samples, n_sites, n_alleles)`.
+    metric : callable
+        Numba-compatible function used to compare two samples.
+
+    Returns
+    -------
+    numpy.ndarray
+        Condensed distance matrix in SciPy ordering.
+    """
+    n_samples = X.shape[0]
+    n_pairs = (n_samples * (n_samples - 1)) // 2
+    out = np.zeros(n_pairs, dtype=np.float32)
+
+    # Loop over samples, treating each sample in turn as the first member of
+    # a pairwise comparison.
+    for i in range(n_samples):
+        x = X[i, :, :]
+
+        # Compare the current sample against all later samples, which become
+        # the second member of each pairwise comparison.
+        for j in numba.prange(i + 1, n_samples):
+            y = X[j, :, :]
+
+            # Compute distance for the current pair.
+            d = metric(x, y)
+
+            # Store result for the current pair.
+            k = square_to_condensed(i, j, n_samples)
+            out[k] = d
+
+    return out
+
+
+@numba.njit
+def square_to_condensed(i, j, n):
+    """Convert square matrix coordinates to a condensed index.
+
+    Parameters
+    ----------
+    i, j : int
+        Matrix coordinates for an off-diagonal pair.
+    n : int
+        Size of the square distance matrix.
+
+    Returns
+    -------
+    int
+        Index into the equivalent condensed distance vector.
+    """
+
+    assert i != j, "no diagonal elements in condensed matrix"
+    if i < j:
+        i, j = j, i
+    return n * j - j * (j + 1) // 2 + i - 1 - j
+
+
+@numba.njit
+def multiallelic_diplotype_mean_cityblock(x, y):
+    """Compute mean cityblock distance between two diplotypes.
+
+    Parameters
+    ----------
+    x, y : numpy.ndarray
+        Allele-count arrays with shape `(n_sites, n_alleles)`.
+
+    Returns
+    -------
+    numpy.float32
+        Mean per-site cityblock distance across sites where both samples are
+        called.
+    """
+    n_sites = x.shape[0]
+    n_alleles = x.shape[1]
+    distance = np.float32(0)
+    n_sites_called = np.float32(0)
+
+    # Loop over sites.
+    for i in range(n_sites):
+        x_is_called = False
+        y_is_called = False
+        d = np.float32(0)
+
+        # Loop over alleles.
+        for j in range(n_alleles):
+            # Access allele counts.
+            xc = np.float32(x[i, j])
+            yc = np.float32(y[i, j])
+
+            # Check if any alleles observed.
+            x_is_called = x_is_called or (xc > 0)
+            y_is_called = y_is_called or (yc > 0)
+
+            # Compute cityblock distance (absolute difference).
+            d += np.fabs(xc - yc)
+
+        # Accumulate distance for the current pair, but only if both samples
+        # have a called genotype.
+        if x_is_called and y_is_called:
+            distance += d
+            n_sites_called += np.float32(1)
+
+    # Compute the mean distance over sites with called genotypes.
+    if n_sites_called > 0:
+        mean_distance = distance / n_sites_called
+    else:
+        mean_distance = np.nan
+
+    return mean_distance

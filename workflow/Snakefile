@@ -1,0 +1,232 @@
+# workflow/Snakefile
+
+import pandas as pd
+import numpy as np
+import json
+import os
+import shutil
+
+wkdir = os.getcwd()
+
+include: "rules/metadata.smk"
+
+configfile: "config/config.yaml"
+
+dataset = config["dataset"]
+panel = config["panel"]
+cohort_cols = ",".join(config["cohort-columns"])
+
+user_metadata_colours_path = os.path.join(
+    "config",
+    "metadata_colours.json"
+)
+
+using_user_metadata_colours = os.path.isfile(
+    user_metadata_colours_path
+)
+
+if config["platform"] not in ["illumina", "nanopore"]:
+    raise ValueError(
+        "Unsupported platform. Please set platform to either "
+        "'illumina' or 'nanopore'."
+    )
+
+config.setdefault("ploidy", 2)
+
+try:
+    ploidy = int(config["ploidy"])
+except (TypeError, ValueError):
+    raise ValueError(
+        f"ploidy must be a positive integer, got {config['ploidy']!r}."
+    )
+
+if ploidy < 1:
+    raise ValueError(
+        f"ploidy must be >= 1, got {ploidy}."
+    )
+
+if config["platform"] == "nanopore" and ploidy > 2:
+    raise ValueError(
+        "Polyploid (ploidy > 2) is not supported for nanopore data. "
+        "Use Illumina for polyploid organisms, or set ploidy to 1 or 2."
+    )
+
+config["ploidy"] = ploidy
+
+# Minimum read depth for a genotype to be kept when calling amplicon variants with
+# clair3 gVCFs. Below this, the genotype is set to missing rather than assumed wild type.
+config.setdefault('min-genotype-depth', 10)
+
+
+if config["platform"] == "nanopore" and config["from-bcl"]:
+    raise ValueError(
+        "from-bcl option is only compatible with Illumina data."
+    )
+
+if (
+    config["platform"] == "nanopore"
+    and len(config["metadata"]) == 0
+):
+    raise ValueError(
+        "Metadata file must be provided for nanopore data."
+    )
+
+if (
+    config["platform"] == "illumina"
+    and not config["from-bcl"]
+    and len(config["metadata"]) == 0
+):
+    raise ValueError(
+        "When from-bcl is False, metadata file must be provided."
+    )
+
+illumina_dir_config = config.get("illumina-dir", "")
+
+if isinstance(illumina_dir_config, str):
+    illumina_dirs = (
+        [illumina_dir_config]
+        if len(illumina_dir_config) > 0
+        else []
+    )
+
+elif isinstance(illumina_dir_config, list):
+    illumina_dirs = [
+        d
+        for d in illumina_dir_config
+        if isinstance(d, str) and len(d) > 0
+    ]
+
+else:
+    raise ValueError(
+        "illumina-dir must be either a string path or a list of string paths."
+    )
+
+illumina_run_ids = [
+    str(i) for i in range(len(illumina_dirs))
+]
+
+if (
+    config["platform"] == "illumina"
+    and config["from-bcl"]
+    and len(illumina_dirs) == 0
+):
+    raise ValueError(
+        "When from-bcl is True, illumina-dir must be provided."
+    )
+
+if config["from-bcl"]:
+    metadata_path = [
+        os.path.join(d, "SampleSheet.csv")
+        for d in illumina_dirs
+    ]
+
+    metadata = load_metadata(
+        metadata_path,
+        write=True,
+        from_sample_sheet=True
+    )
+
+else:
+    metadata_path = config["metadata"]
+
+    metadata = load_metadata(
+        metadata_path,
+        write=True,
+        from_sample_sheet=False
+    )
+
+samples = metadata["sample_id"]
+
+if config["platform"] == "nanopore":
+
+    assert "fq1" in metadata.columns, (
+        "The fq1 column in the metadata does not seem to exist. "
+        "For nanopore data, this column is required."
+    )
+
+    fastq_auto = False
+
+elif config["platform"] == "illumina":
+
+    fastq_auto = not all(
+        col in metadata.columns
+        for col in ["fq1", "fq2"]
+    )
+
+call_types = [
+    "targets",
+    "amplicons"
+]
+
+plate_info = np.isin(
+    ["plate", "well_letter", "well_number"],
+    metadata.columns
+).all()
+
+include: "rules/common.smk"
+
+welcome(
+    version="v0.8",
+    using_user_metadata_colours=using_user_metadata_colours
+)
+
+include: "rules/utilities.smk"
+
+if (
+    config["platform"] == "illumina"
+    and config["from-bcl"]
+):
+    include: "rules/bcl-convert.smk"
+
+    include: "rules/qc.smk"
+
+elif config["platform"] == "illumina":
+    include: "rules/qc.smk"
+
+if config["platform"] == "illumina":
+    include: "rules/map-call-illumina.smk"
+
+elif config["platform"] == "nanopore":
+    include: "rules/map-call-nanopore.smk"
+
+include: "rules/qc-notebooks.smk"
+include: "rules/snpeff.smk"
+include: "rules/analysis.smk"
+include: "rules/jupyter-book.smk"
+
+if panel == "ag-vampir":
+    include: "rules/ag-vampir.smk"
+
+os.makedirs(
+    "results/config",
+    exist_ok=True
+)
+
+if using_user_metadata_colours:
+
+    shutil.copyfile(
+        user_metadata_colours_path,
+        "results/config/metadata_colours.json"
+    )
+
+else:
+
+    color_mappings = create_color_mapping(
+        metadata,
+        columns=config["cohort-columns"]
+    )
+
+    with open(
+        "results/config/metadata_colours.json",
+        "w"
+    ) as f:
+        json.dump(
+            color_mappings,
+            f,
+            indent=2
+        )
+
+rule all:
+
+    input:
+        ampseeker_outputs

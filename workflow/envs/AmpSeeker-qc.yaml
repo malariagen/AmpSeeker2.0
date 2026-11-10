@@ -1,0 +1,11 @@
+name: AmpSeeker-qc
+channels:
+  - bioconda
+  - conda-forge
+  - anaconda
+dependencies:
+  - python=3.9
+  - fastqc
+  - pip 
+  - pip:
+    - multiqc

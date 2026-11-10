@@ -1,0 +1,5 @@
+version: 1.2
+workflows:
+  - subclass: WDL
+    primaryDescriptorPath: /terra/ampseeker.wdl
+    topic: AmpSeeker amplicon sequencing workflow for Terra

@@ -1,0 +1,8 @@
+name: Ampseeker-jupyterbook
+channels:
+    - conda-forge
+    - bioconda
+dependencies:
+    - python=3.12
+    - jupyterlab
+    - jupyter-book==1.0.4

@@ -1,0 +1,106 @@
+if config["platform"] == "illumina" and config["from-bcl"]:
+    rule index_read_fastqc:
+        input:
+            i1="resources/reads/I1_combined.fastq.gz",
+            i2="resources/reads/I2_combined.fastq.gz",
+        output:
+            index1_qc="results/qc/index-read-qc/I1.html",
+            index2_qc="results/qc/index-read-qc/I2.html",
+        log:
+            "logs/index-read-quality.log",
+        shell:
+            """
+            zcat {input.i1} | fastqc stdin --outdir results/qc/index-read-qc/ 2>> {log}
+            mv results/qc/index-read-qc/stdin_fastqc.html results/qc/index-read-qc/I1.html 2>> {log}
+            mv results/qc/index-read-qc/stdin_fastqc.zip results/qc/index-read-qc/I1.zip 2>> {log}
+            
+            zcat {input.i2} | fastqc stdin --outdir results/qc/index-read-qc/ 2>> {log}
+            mv results/qc/index-read-qc/stdin_fastqc.html results/qc/index-read-qc/I2.html 2>> {log}
+            mv results/qc/index-read-qc/stdin_fastqc.zip results/qc/index-read-qc/I2.zip 2>> {log}
+            """
+
+rule mosdepth_coverage:
+        """
+        Target per-base coverage with mosdepth
+        """
+        input:
+            bam="results/alignments/{sample}.bam",
+            idx="results/alignments/{sample}.bam.bai",
+            panel=config["targets"],
+        output:
+            "results/coverage/{sample}.per-base.bed.gz",
+            "results/coverage/{sample}.regions.bed.gz",
+            "results/coverage/{sample}.mosdepth.summary.txt",
+            "results/coverage/{sample}.mosdepth.global.dist.txt",
+        log:
+            "logs/coverage/{sample}.log",
+        threads: 4
+        params:
+            prefix="results/coverage/{sample}"
+        shell:
+            """
+            mosdepth {params.prefix} {input.bam} --fast-mode --by {input.panel} --threads {threads} 2> {log}   
+            """
+
+
+rule bam_stats:
+        """
+        Calculate mapping statistics with samtools flagstat
+        """
+        input:
+            bam="results/alignments/{sample}.bam",
+            idx="results/alignments/{sample}.bam.bai",
+        output:
+            stats="results/alignments/bamStats/{sample}.flagstat",
+        log:
+            "logs/BamStats/{sample}.log",
+        shell:
+            """
+        samtools flagstat {input.bam} > {output} 2> {log}
+        """
+
+
+rule vcf_stats:
+    input:
+        vcf="results/vcfs/{call_type}/{dataset}.merged.vcf",
+    output:
+        stats="results/qc/{dataset}-{call_type}.merged.vcf.txt",
+    log:
+        "logs/vcfStats/{dataset}-{call_type}.log",
+    shell:
+        """
+        bcftools stats {input.vcf} > {output.stats} 2> {log}
+        """
+
+
+rule multi_qc:
+    input:
+        expand("results/qc/fastp_reports/{sample}.json", sample=samples),
+        expand("results/alignments/bamStats/{sample}.flagstat", sample=samples)
+        if config["quality-control"]["stats"]
+        else [],
+        expand("results/qc/{dataset}-{call_type}.merged.vcf.txt", dataset=dataset, call_type=call_types)
+        if config["quality-control"]["stats"]
+        else [],
+        expand("results/coverage/{sample}.per-base.bed.gz", sample=samples)
+        if config["quality-control"]["coverage"] and config['platform'] == 'illumina'
+        else [],
+        expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples)
+        if config["quality-control"]["coverage"]
+        else [],
+        expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples)
+        if config["quality-control"]["coverage"]
+        else [],
+    output:
+        "results/qc/multiqc/multiqc_report.html",
+    params:
+        extra="--config resources/multiqc.yaml",
+    log:
+        "logs/multiqc/multiqc.log",
+    shell:
+        """
+        multiqc {input} \
+            --config resources/multiqc.yaml \
+            -o results/qc/multiqc \
+            2> {log}
+        """
