@@ -74,8 +74,6 @@ Terra data table row  ──►  WDL workflow  ──►  one container per task
 └── workflows/              # WDL workflow file(s)
 ```
 
-> The exact file names inside `docker/`, `terra/` and `workflows/` may differ in your checkout. The paths used in the commands below (`docker/Dockerfile`, `workflows/AmpSeeker.wdl`) should be adjusted to match.
-
 ---
 
 ## Docker Images
